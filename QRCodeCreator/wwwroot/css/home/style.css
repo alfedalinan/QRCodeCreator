@@ -1,0 +1,21 @@
+#formContainer {
+    padding: 0% 10% 10% 10%;
+    margin: 0 auto;
+}
+
+#qrCodeImage {
+    max-height: 350px;
+}
+
+#loader {
+    display: none;
+}
+
+#loader img {
+    max-height: 200px;
+}
+
+.col-md-6 {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 30px;
+}

@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "QR Code Generator";
+}
+
+<div class="text-center row">
+
+    <div class="col-md-6">
+        <h1>Generate Your Own QR Code</h1>
+        <h4>Kindly fill up the following information:</h4>
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formContainer" }))
+        {
+            <div class="form-group">
+                <input type="text" name="givenName" class="form-control" placeholder="Your Given Name" value="" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="familyName" class="form-control" placeholder="Your Family Name" value="" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="companyName" class="form-control" placeholder="Your Company Name" value="" />
+            </div>
+            <div>
+                <button type="button" id="generate" class="btn btn-success"> Generate QR Code </button>
+            </div>
+        }
+
+    </div>
+
+    <div class="col-md-6">
+        <h4>Your QR code will be generated here:</h4>
+        <div id="loader">
+            <p>Generating your QR code... </p>
+            <img src="~/img/loader.gif" />
+        </div>
+        <div id="qrContainer">
+        </div>
+    </div>
+    
+</div>
+
+@section Styles{ 
+    <link href="~/css/home/style.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).on("click", "#generate", () => {
+            $.ajax({
+                url: "@Url.Action("Generate", "QRCode")",
+                type: "POST",
+                data: $("#formContainer").serialize(),
+                beforeSend: () => {
+                    $("#loader").show();
+                    $("#qrContainer").empty();
+                },
+                success: (response) => {
+                    setTimeout(() => {
+                        $("#qrContainer").append(response);
+                        $("#loader").hide();
+                    }, 1500);
+                }
+            });
+        });
+
+        $(document).on("click", "#downloadQrCode", () => {
+            var a = document.createElement("a"); //Create <a>
+            a.href = $("#qrCodeImage").attr("src");
+            a.download = `${$("#qrCodeImage").attr("src").split(",")[1].substr(1, 16)}.png`;
+            a.click();
+        });
+    </script>
+}

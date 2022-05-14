@@ -1,0 +1,7 @@
+﻿@model QRCodeCreator.ViewModels.QRCodeViewModel
+@{
+}
+
+<img id="qrCodeImage" src="data:image/png;base64, @Model.Base64Image" />
+
+<button type="button" id="downloadQrCode" class="btn btn-success">Download QR Code</button>
